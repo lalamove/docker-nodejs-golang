@@ -55,3 +55,5 @@ WORKDIR $GOPATH
 
 COPY go-wrapper /usr/local/bin/
 
+RUN apk update && apk add --no-cache git && apk add --no-cache bash
+
