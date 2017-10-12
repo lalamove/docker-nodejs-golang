@@ -1,7 +1,6 @@
 FROM node:8.6.0-alpine
 
-RUN apk update
-RUN apk add --no-cache ca-certificates
+RUN until apk add --no-cache ca-certificates; do sleep .5s; done
 
 ENV GOLANG_VERSION 1.9.1
 
@@ -10,13 +9,13 @@ ENV GOLANG_VERSION 1.9.1
 COPY *.patch /go-alpine-patches/
 
 RUN set -eux; \
-	apk add --no-cache --virtual .build-deps \
+	until apk add --no-cache --virtual .build-deps \
 		bash \
 		gcc \
 		musl-dev \
 		openssl \
 		go \
-	; \
+	; do sleep .5s; done; \
 	export \
 # set GOROOT_BOOTSTRAP such that we can actually build Go
 		GOROOT_BOOTSTRAP="$(go env GOROOT)" \
@@ -56,6 +55,7 @@ WORKDIR $GOPATH
 
 COPY go-wrapper /usr/local/bin/
 
-RUN apk update && apk add --no-cache git && apk add --no-cache bash
+RUN apk update
+RUN until apk add --no-cache git bash ; do sleep .5s ; done
 # https://github.com/canthefason/go-watcher
 RUN go get github.com/canthefason/go-watcher && go install github.com/canthefason/go-watcher/cmd/watcher
