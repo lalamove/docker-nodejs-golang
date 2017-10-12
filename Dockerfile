@@ -55,6 +55,6 @@ WORKDIR $GOPATH
 
 COPY go-wrapper /usr/local/bin/
 
-# https://github.com/canthefason/go-watcher
 RUN apk update && apk add --no-cache git && apk add --no-cache bash
+# https://github.com/canthefason/go-watcher
 RUN go get github.com/canthefason/go-watcher && go install github.com/canthefason/go-watcher/cmd/watcher
