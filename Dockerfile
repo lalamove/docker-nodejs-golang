@@ -1,5 +1,6 @@
 FROM node:8.6.0-alpine
 
+RUN apk update
 RUN apk add --no-cache ca-certificates
 
 ENV GOLANG_VERSION 1.9.1
